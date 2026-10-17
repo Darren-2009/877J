@@ -78,8 +78,17 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
+void pinExit() {
+  mClaw.spin(reverse);
+  wait(0.5, sec);
+  mSwerve.spinTo(0.3325, turns, true);
+  mClaw.stop();
+  mSwerve.spinTo(0.3325, turns, false);
+}
+
 void usercontrol(void) {
   // User control code here, inside the loop
+
   while (1) {
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
@@ -96,16 +105,8 @@ void usercontrol(void) {
     }  else{
       mClaw.stop();
     }
-    //Atomatic pin exit
-    if(Controller.ButtonX.pressing()) {
-      mClaw.spin(reverse);
-      wait(0.5, sec);
-      mSwerve.spinTo(0.3325, turns, true);
-      mClaw.stop();
-      mSwerve.spinTo(0.3325, turns, false);
-    }
-    // Claw Intake
-
+    // Claw Score
+      Controller.ButtonX.pressed(pinExit);
     // Winch
     if(Controller.ButtonR1.pressing()) {
       gWinch.spin(forward);
