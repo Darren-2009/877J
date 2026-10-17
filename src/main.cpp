@@ -26,10 +26,13 @@ motor_group gLeft = motor_group(mFrontL,mBackL);
 motor_group gRight = motor_group(mFrontR,mBackR);
 // Banshee
 motor mClaw = motor(PORT5, ratio18_1, true);
+motor mSwerve = motor(PORT8, ratio18_1, true);
 // Lift
 motor mWinchL = motor(PORT6, ratio18_1, true);
 motor mWinchR = motor(PORT7, ratio18_1, false);
 motor_group gWinch = motor_group(mWinchL,mWinchR);
+// Intake
+motor mIntake = motor(PORT9, ratio18_1, true);
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
 /*                                                                           */
@@ -93,6 +96,16 @@ void usercontrol(void) {
     }  else{
       mClaw.stop();
     }
+    //Atomatic pin exit
+    if(Controller.ButtonX.pressing()) {
+      mClaw.spin(reverse);
+      wait(0.5, sec);
+      mSwerve.spinTo(0.3325, turns, true);
+      mClaw.stop();
+      mSwerve.spinTo(0.3325, turns, false);
+    }
+    // Claw Intake
+
     // Winch
     if(Controller.ButtonR1.pressing()) {
       gWinch.spin(forward);
@@ -101,7 +114,14 @@ void usercontrol(void) {
     }  else{
       gWinch.stop();
     }
-
+    // Intake
+    if(Controller.ButtonUp.pressing()) {
+      mIntake.spin(forward);
+    } else if (Controller.ButtonDown.pressing()) {
+      mIntake.spin(reverse);
+    }  else{
+      mIntake.stop();
+    }
     // ........................................................................
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
