@@ -78,11 +78,12 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void pinExit() {
+void clawScore(void) {
   mClaw.spin(reverse);
   wait(0.5, sec);
   mSwerve.spinTo(0.3325, turns, true);
   mClaw.stop();
+  wait(1, sec);
   mSwerve.spinTo(0.3325, turns, false);
 }
 
@@ -106,7 +107,7 @@ void usercontrol(void) {
       mClaw.stop();
     }
     // Claw Score
-      Controller.ButtonX.pressed(pinExit);
+      Controller.ButtonX.pressed(clawScore);
     // Winch
     if(Controller.ButtonR1.pressing()) {
       gWinch.spin(forward);
