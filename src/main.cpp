@@ -46,6 +46,7 @@ motor mIntake = motor(PORT9, ratio18_1, true);
 void pre_auton(void) {
   mClaw.setStopping(hold);
   gWinch.setStopping(hold);
+  mSwerve.setPosition(0, turns);
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
 }
@@ -86,7 +87,12 @@ void clawScore(void) {
   wait(1, sec);
   mSwerve.spinTo(0.3325, turns, false);
 }
-
+void clawIntake(void) {
+  mSwerve.spinTo(0, turns, true);
+}
+void clawBanshee(void) {
+  mSwerve.spinTo(0.3325, turns, true);
+}
 void usercontrol(void) {
   // User control code here, inside the loop
 
@@ -108,6 +114,8 @@ void usercontrol(void) {
     }
     // Claw Score
       Controller.ButtonX.pressed(clawScore);
+    // Claw Intake
+      Controller.ButtonDown.pressed(clawIntake);
     // Winch
     if(Controller.ButtonR1.pressing()) {
       gWinch.spin(forward);
