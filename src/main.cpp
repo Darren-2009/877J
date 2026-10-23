@@ -79,21 +79,20 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void clawScore(void) {
-  mClaw.spin(reverse);
-  wait(0.5, sec);
+void clawScore() {
+  mClaw.setPosition(0, turns);
+  mClaw.setVelocity(100, percent);
+  mClaw.spinTo(1, turns, false);
   mSwerve.spinTo(0.3325, turns, true);
-  mClaw.stop();
-  wait(1, sec);
   mSwerve.spinTo(0.3325, turns, false);
 }
-void clawIntake(void) {
+void clawIntake() {
   mSwerve.spinTo(0, turns, true);
 }
-void clawBanshee(void) {
+void clawBanshee() {
   mSwerve.spinTo(0.3325, turns, true);
 }
-void usercontrol(void) {
+void usercontrol() {
   // User control code here, inside the loop
 
   while (1) {
@@ -102,8 +101,14 @@ void usercontrol(void) {
     // values based on feedback from the joysticks.
 
     // Drivetrain
-    gLeft.setVelocity(Controller.Axis3.position(), percent);
-    gRight.setVelocity(Controller.Axis1.position(), percent);
+    gLeft.setVelocity(Controller.Axis3.position()+Controller.Axis1.position(), percent);
+    gRight.setVelocity(Controller.Axis3.position()-Controller.Axis1.position(), percent);
+    gRight.spin(forward);
+    gLeft.spin(forward);
+    // Claw Score
+      Controller.ButtonX.pressed(clawScore);
+    // Claw Intake
+      Controller.ButtonDown.pressed(clawIntake);
     // Claw
     if(Controller.ButtonL1.pressing()) {
       mClaw.spin(forward);
@@ -112,10 +117,6 @@ void usercontrol(void) {
     }  else{
       mClaw.stop();
     }
-    // Claw Score
-      Controller.ButtonX.pressed(clawScore);
-    // Claw Intake
-      Controller.ButtonDown.pressed(clawIntake);
     // Winch
     if(Controller.ButtonR1.pressing()) {
       gWinch.spin(forward);
