@@ -73,6 +73,8 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
+  gLeft.resetPosition();
+  gRight.resetPosition();
   gLeft.setVelocity(50, percent);
   gRight.setVelocity(50, percent);
   gLeft.spinTo(8, turns, false);
