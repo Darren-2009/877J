@@ -33,6 +33,17 @@ motor mWinchR = motor(PORT7, ratio18_1, false);
 motor_group gWinch = motor_group(mWinchL,mWinchR);
 // Intake
 motor mIntake = motor(PORT9, ratio18_1, true);
+
+/*---------------------------------------------------------------------------*/
+/*                                   PID                                     */
+/*                                                                           */
+/*  Proportional, Integral, Derivative control                               */
+/*  Decrease the values of the PID constants to improve stability            */
+/*---------------------------------------------------------------------------*/
+
+
+
+
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
 /*                                                                           */
@@ -62,8 +73,11 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  gLeft.spinTo(10, turns, true);
-  gRight.spinTo(10, turns, true);
+  gLeft.setVelocity(50, percent);
+  gRight.setVelocity(50, percent);
+  gLeft.spinTo(8, turns, false);
+  gRight.spinTo(8, turns, true);
+
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
