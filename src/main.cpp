@@ -18,22 +18,23 @@ competition Competition;
 brain Brain;
 controller Controller;
 // Drivetrain
-motor mFrontL = motor(PORT1,ratio6_1,true);
-motor mBackL = motor(PORT2, ratio6_1, false);
-motor mFrontR = motor(PORT3, ratio6_1, false);
-motor mBackR = motor(PORT4, ratio6_1, true);
+motor mFrontL = motor(PORT20,ratio6_1,true);
+motor mBackL = motor(PORT19, ratio6_1, false);
+motor mFrontR = motor(PORT11, ratio6_1, false);
+motor mBackR = motor(PORT12, ratio6_1, true);
 motor_group gLeft = motor_group(mFrontL,mBackL);
 motor_group gRight = motor_group(mFrontR,mBackR);
 // Banshee
 motor mClaw = motor(PORT5, ratio18_1, true);
 motor mSwerve = motor(PORT8, ratio18_1, true);
 // Lift
-motor mWinchL = motor(PORT6, ratio18_1, true);
-motor mWinchR = motor(PORT7, ratio18_1, false);
+motor mWinchL = motor(PORT18, ratio18_1, true);
+motor mWinchR = motor(PORT13, ratio18_1, false);
 motor_group gWinch = motor_group(mWinchL,mWinchR);
 // Intake
 motor mIntake = motor(PORT9, ratio18_1, true);
-
+// Sensors
+inertial sInertial = inertial(PORT14);
 /*---------------------------------------------------------------------------*/
 /*                                   PID                                     */
 /*                                                                           */
@@ -53,11 +54,18 @@ motor mIntake = motor(PORT9, ratio18_1, true);
 /*  function is only called once after the V5 has been powered on and        */
 /*  not every time that the robot is disabled.                               */
 /*---------------------------------------------------------------------------*/
+// Turns motor rotations into inches
+float incalc(float a) {
+  float spinny = a/6.48;
+  return spinny;
+}
 
 void pre_auton(void) {
   mClaw.setStopping(hold);
   gWinch.setStopping(hold);
   mSwerve.setPosition(0, turns);
+  // sInertial.startCalibration();
+
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
 }
@@ -71,14 +79,26 @@ void pre_auton(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-
+// 90 deg turn = 12in
 void autonomous(void) {
   gLeft.resetPosition();
   gRight.resetPosition();
+  // sInertial.resetHeading();
   gLeft.setVelocity(50, percent);
   gRight.setVelocity(50, percent);
-  gLeft.spinTo(8, turns, false);
-  gRight.spinTo(8, turns, true);
+  gLeft.spinTo(incalc(5), turns, false);
+  gRight.spinTo(incalc(5), turns, true);
+//  sInertial.setHeading(0, deg);
+//  while(sInertial.heading(degrees) < 91 && sInertial.heading(degrees) > 89){
+//    gLeft.spin(forward);
+ //   gRight.spin(reverse);
+ // } 
+ // gLeft.stop();
+ // gRight.stop();
+  gLeft.resetPosition();
+  gRight.resetPosition();
+  gRight.spinTo(incalc(-12), turns, false);
+  gLeft.spinTo(incalc(12), turns, true);
 
   // ..........................................................................
   // Insert autonomous user code here.
@@ -110,15 +130,17 @@ void clawBanshee() {
 }
 void usercontrol() {
   // User control code here, inside the loop
-
+// Velocity Percents
+mWinchL.setVelocity(50, percent);
+mWinchR.setVelocity(50, percent);
   while (1) {
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
     // values based on feedback from the joysticks.
 
     // Drivetrain
-    gLeft.setVelocity(Controller.Axis3.position()+Controller.Axis1.position(), percent);
-    gRight.setVelocity(Controller.Axis3.position()-Controller.Axis1.position(), percent);
+    gLeft.setVelocity(Controller.Axis3.position()*0.80+Controller.Axis1.position()*0.80, percent);
+    gRight.setVelocity(Controller.Axis3.position()*0.80-Controller.Axis1.position()*0.80, percent);
     gRight.spin(forward);
     gLeft.spin(forward);
     // Claw Score
