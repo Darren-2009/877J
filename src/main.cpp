@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       main.cpp                                                  */
-/*    Author:       Darren Gola                                                     */
+/*    Author:       Darren Gola                                               */
 /*    Created:      10/16/2026, 4:51:31 PM                                    */
 /*    Description:  V5 project                                                */
 /*                                                                            */
@@ -25,25 +25,16 @@ motor mBackR = motor(PORT12, ratio6_1, true);
 motor_group gLeft = motor_group(mFrontL,mBackL);
 motor_group gRight = motor_group(mFrontR,mBackR);
 // Banshee
-motor mClaw = motor(PORT5, ratio18_1, true);
-motor mSwerve = motor(PORT8, ratio18_1, true);
+motor mClaw = motor(PORT15, ratio18_1, true);
+motor mSwerve = motor(PORT16, ratio18_1, true);
 // Lift
 motor mWinchL = motor(PORT18, ratio18_1, true);
 motor mWinchR = motor(PORT13, ratio18_1, false);
 motor_group gWinch = motor_group(mWinchL,mWinchR);
 // Intake
-motor mIntake = motor(PORT9, ratio18_1, true);
+motor mIntake = motor(PORT14, ratio18_1, true);
 // Sensors
-inertial sInertial = inertial(PORT14);
-/*---------------------------------------------------------------------------*/
-/*                                   PID                                     */
-/*                                                                           */
-/*  Proportional, Integral, Derivative control                               */
-/*  Decrease the values of the PID constants to improve stability            */
-/*---------------------------------------------------------------------------*/
-
-
-
+// inertial sInertial = inertial(PORT14);
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -131,8 +122,8 @@ void clawBanshee() {
 void usercontrol() {
   // User control code here, inside the loop
 // Velocity Percents
-mWinchL.setVelocity(50, percent);
-mWinchR.setVelocity(50, percent);
+mWinchL.setVelocity(100, percent);
+mWinchR.setVelocity(100, percent);
   while (1) {
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
