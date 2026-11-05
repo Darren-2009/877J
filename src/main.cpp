@@ -28,11 +28,11 @@ motor_group gRight = motor_group(mFrontR,mBackR);
 motor mClaw = motor(PORT15, ratio18_1, true);
 motor mSwerve = motor(PORT16, ratio18_1, true);
 // Lift
-motor mWinchL = motor(PORT18, ratio18_1, true);
-motor mWinchR = motor(PORT13, ratio18_1, false);
+motor mWinchL = motor(PORT18, ratio36_1, true);
+motor mWinchR = motor(PORT13, ratio36_1, false);
 motor_group gWinch = motor_group(mWinchL,mWinchR);
 // Intake
-motor mIntake = motor(PORT14, ratio18_1, true);
+motor mIntake = motor(PORT17, ratio18_1, true);
 // Sensors
 // inertial sInertial = inertial(PORT14);
 
@@ -106,16 +106,15 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void clawScore() {
-  mClaw.setPosition(0, turns);
-  mClaw.setVelocity(100, percent);
-  mClaw.spinTo(1, turns, false);
-  mSwerve.spinTo(0.3325, turns, true);
-  mSwerve.spinTo(0.3325, turns, false);
+// Puts the claw into rachet mode
+void clawRachet() {
+  mSwerve.spinTo(0.67, turns, true);
 }
+// Puts the claw into intake mode
 void clawIntake() {
   mSwerve.spinTo(0, turns, true);
 }
+// Puts the claw into banshee mode
 void clawBanshee() {
   mSwerve.spinTo(0.3325, turns, true);
 }
@@ -124,6 +123,8 @@ void usercontrol() {
 // Velocity Percents
 mWinchL.setVelocity(100, percent);
 mWinchR.setVelocity(100, percent);
+mClaw.setVelocity(100, percent);
+mSwerve.setVelocity(75, percent);
   while (1) {
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
@@ -134,10 +135,12 @@ mWinchR.setVelocity(100, percent);
     gRight.setVelocity(Controller.Axis3.position()*0.80-Controller.Axis1.position()*0.80, percent);
     gRight.spin(forward);
     gLeft.spin(forward);
-    // Claw Score
-      Controller.ButtonX.pressed(clawScore);
+    // Claw Banshee
+      Controller.ButtonY.pressed(clawBanshee);
+    // Claw Rachet
+      Controller.ButtonX.pressed(clawRachet);
     // Claw Intake
-      Controller.ButtonDown.pressed(clawIntake);
+      Controller.ButtonB.pressed(clawIntake);
     // Claw
     if(Controller.ButtonL1.pressing()) {
       mClaw.spin(forward);
