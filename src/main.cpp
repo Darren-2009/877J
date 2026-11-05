@@ -72,11 +72,14 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 // 90 deg turn = 12in
 void autonomous(void) {
+  // Resets the motor position to 0 to ensure correct values
   gLeft.resetPosition();
   gRight.resetPosition();
   // sInertial.resetHeading();
+  // Sets the drivetrain velocity to 50 percent for better accuracy
   gLeft.setVelocity(50, percent);
   gRight.setVelocity(50, percent);
+  // Moves the bot forward 5in
   gLeft.spinTo(incalc(5), turns, false);
   gRight.spinTo(incalc(5), turns, true);
 //  sInertial.setHeading(0, deg);
@@ -86,8 +89,10 @@ void autonomous(void) {
  // } 
  // gLeft.stop();
  // gRight.stop();
+  // Resets the motors again so values don't need to be added
   gLeft.resetPosition();
   gRight.resetPosition();
+  // Rotates the bot 90 degress to the right
   gRight.spinTo(incalc(-12), turns, false);
   gLeft.spinTo(incalc(12), turns, true);
 
