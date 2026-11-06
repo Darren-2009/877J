@@ -130,6 +130,7 @@ void usercontrol() {
 mWinchL.setVelocity(100, percent);
 mWinchR.setVelocity(100, percent);
 mClaw.setVelocity(100, percent);
+mIntake.setVelocity(100, percent);
 mSwerve.setVelocity(75, percent);
   while (1) {
     // Drivetrain
