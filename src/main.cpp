@@ -57,9 +57,6 @@ void pre_auton(void) {
   mSwerve.setStopping(hold);
   mSwerve.setPosition(0, turns);
   // sInertial.startCalibration();
-
-  // All activities that occur before the competition starts
-  // Example: clearing encoders, setting servo positions, ...
 }
 
 /*---------------------------------------------------------------------------*/
@@ -96,10 +93,6 @@ void autonomous(void) {
   // Rotates the bot 90 degrees to the right
   gRight.spinTo(incalc(-12), turns, false);
   gLeft.spinTo(incalc(12), turns, true);
-
-  // ..........................................................................
-  // Insert autonomous user code here.
-  // ..........................................................................
 }
 
 /*---------------------------------------------------------------------------*/
