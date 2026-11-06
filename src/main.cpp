@@ -54,6 +54,7 @@ float incalc(float a) {
 void pre_auton(void) {
   mClaw.setStopping(hold);
   gWinch.setStopping(hold);
+  mSwerve.setStopping(hold);
   mSwerve.setPosition(0, turns);
   // sInertial.startCalibration();
 
@@ -92,7 +93,7 @@ void autonomous(void) {
   // Resets the motors again so values don't need to be added
   gLeft.resetPosition();
   gRight.resetPosition();
-  // Rotates the bot 90 degress to the right
+  // Rotates the bot 90 degrees to the right
   gRight.spinTo(incalc(-12), turns, false);
   gLeft.spinTo(incalc(12), turns, true);
 
@@ -111,7 +112,7 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-// Puts the claw into rachet mode
+// Puts the claw into ratchet mode
 void clawRachet() {
   mSwerve.spinTo(0.67, turns, true);
 }
@@ -131,10 +132,6 @@ mWinchR.setVelocity(100, percent);
 mClaw.setVelocity(100, percent);
 mSwerve.setVelocity(75, percent);
   while (1) {
-    // This is the main execution loop for the user control program.
-    // Each time through the loop your program should update motor + servo
-    // values based on feedback from the joysticks.
-
     // Drivetrain
     gLeft.setVelocity(Controller.Axis3.position()*0.80+Controller.Axis1.position()*0.80, percent);
     gRight.setVelocity(Controller.Axis3.position()*0.80-Controller.Axis1.position()*0.80, percent);
@@ -170,11 +167,7 @@ mSwerve.setVelocity(75, percent);
     }  else{
       mIntake.stop();
     }
-    // ........................................................................
-    // Insert user code here. This is where you use the joystick values to
-    // update your motors, etc.
-    // ........................................................................
-
+    
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
