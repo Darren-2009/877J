@@ -26,13 +26,13 @@ motor_group gLeft = motor_group(mFrontL,mBackL);
 motor_group gRight = motor_group(mFrontR,mBackR);
 // Banshee
 motor mClaw = motor(PORT15, ratio18_1, true);
-motor mSwerve = motor(PORT16, ratio18_1, true);
+motor mSwerve = motor(PORT16, ratio18_1, false);
 // Lift
 motor mWinchL = motor(PORT18, ratio36_1, true);
 motor mWinchR = motor(PORT13, ratio36_1, false);
 motor_group gWinch = motor_group(mWinchL,mWinchR);
 // Intake
-motor mIntake = motor(PORT17, ratio18_1, true);
+motor mIntake = motor(PORT17, ratio18_1, false);
 // Sensors
 // inertial sInertial = inertial(PORT14);
 
@@ -114,7 +114,7 @@ void autonomous(void) {
 
 // Puts the claw into ratchet mode
 void clawRachet() {
-  mSwerve.spinTo(0.67, turns, true);
+  mSwerve.spinTo(1.9, turns, true);
 }
 // Puts the claw into intake mode
 void clawIntake() {
@@ -122,7 +122,7 @@ void clawIntake() {
 }
 // Puts the claw into banshee mode
 void clawBanshee() {
-  mSwerve.spinTo(0.3325, turns, true);
+  mSwerve.spinTo(1.1, turns, true);
 }
 void usercontrol() {
   // User control code here, inside the loop
@@ -163,7 +163,7 @@ mSwerve.setVelocity(75, percent);
     // Intake
     if(Controller.ButtonUp.pressing()) {
       mIntake.spin(forward);
-    } else if (Controller.ButtonDown.pressing()) {
+    } else if (Controller.ButtonRight.pressing()) {
       mIntake.spin(reverse);
     }  else{
       mIntake.stop();
